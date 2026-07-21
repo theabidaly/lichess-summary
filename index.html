@@ -3,12 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style/styles.css">
-    <script type="text/javascript" src="script/script.js"></script>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script type="module" src="scripts/script.js"></script>
     <title>Lichess Analyzer</title>
   </head>
   <body>
-    <p>text in blue</p>
-    <input type="text" id="input_text" name="input_text">
+    <p id="text">text in blue</p>
+    <div class="input">
+        <input type="text" id="input_text" name="input_text" style="width: 500px;">
+        <button id="submit_button">Submit</button>
+    </div>
   </body>
 </html>

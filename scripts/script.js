@@ -1,6 +1,7 @@
-import axios from 'axios'
+json_information = null
 
-function encrypt(plaintext)
+// decryption function
+function decrypt(plaintext)
 {
     ciphertext = ""
 
@@ -12,45 +13,53 @@ function encrypt(plaintext)
     return ciphertext
 }
 
+// on load
 window.addEventListener('load', onLoad)
-
 function onLoad()
 {    
     button = document.getElementById("submit_button")
+    input = document.getElementById("input_text")
 
     text = document.getElementById("text")
-
-    text.innerHTML = "one"
     
-    apiCall
+    apiCall()
 
-    button.addEventListener("click", function () {
-        document.getElementById("text").innerHTML = document.getElementById("input_text").value
+    button.addEventListener("click", function ()
+    {
+        document.getElementById("text").innerHTML = document.getElementById("input_text").value + " ..."
+    })
+
+    input.addEventListener("focus", function()
+    {
+        if(input.value == "Enter Lichess username")
+        {
+            input.value = ""
+            input.style.color = "var(--ruby)"
+        }
+    })
+
+    input.addEventListener("focusout", function()
+    {
+        if(input.value == "")
+        {
+            input.value = "Enter Lichess username"
+            input.style.color = "var(--slate)"
+        }
     })
 }
 
+// call api
 async function apiCall()
 {
     const chip1 = "njtZSkJgp23li7=LPO3S1vvJ"
 
-    const options = {
-        method: 'GET',
-        url: 'https://lichess.org/api/user/{username}',
-        params: {
-            trophies: 'false',
-            profile: 'true',
-            rank: 'false',
-            fideId: 'false'
-        },
+    const response = await fetch('https://lichess.org/api/user/theabidaly0?trophies=false&profile=true&rank=false&fideId=false', {
         headers: {
-            Authorization: `Bearer ${encrypt(chip1)}`
+            Authorization: `Bearer ${decrypt(chip1)}`
         }
-    }
+    })
+    
+    const text = await response.text();
 
-    try {
-        const { data } = await axios.request(options)
-        console.log(data)
-    } catch (error) {
-        console.error(error)
-    }
+    json_information = JSON.parse(text)
 }

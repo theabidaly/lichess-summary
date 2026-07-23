@@ -72,7 +72,7 @@ function getUsername()
     return document.getElementById("input-text").value;
 }
 
-//convert seconds to minutes/hours
+// time conversions
 function convertTimeFromSeconds(time)
 {
     if(time < 100)
@@ -90,6 +90,20 @@ function getActivity(playtime, lifespan)
 {
     lifespan = lifespan/1000
     return Math.round((playtime/lifespan)*100000)/1000
+}
+
+// check if rating is provisional
+function isProv(json)
+{
+    try {
+        if(json.prov)
+        {
+            return true;
+        }
+    } catch (error) {
+        
+    }
+    return false;
 }
 
 // call api
@@ -125,11 +139,51 @@ async function apiCall()
     bulletRating = document.getElementById("bullet-rating")
     blitzRating = document.getElementById("blitz-rating")
     rapidRating = document.getElementById("rapid-rating")
+    bulletGames = document.getElementById("games-bullet")
+    blitzGames = document.getElementById("games-blitz")
+    rapidGames = document.getElementById("games-rapid")
 
     playtime.innerHTML = convertTimeFromSeconds(json_information.playTime.total)[0]
     playtimeUnit.innerHTML = convertTimeFromSeconds(json_information.playTime.total)[1]
+
     lifetime.innerHTML = getLifetime(json_information.createdAt)
+
     bulletRating.innerHTML = json_information.perfs.bullet.rating
     blitzRating.innerHTML = json_information.perfs.blitz.rating
     rapidRating.innerHTML = json_information.perfs.rapid.rating
+
+    bulletGames.innerHTML = json_information.perfs.bullet.games
+    blitzGames.innerHTML = json_information.perfs.blitz.games
+    rapidGames.innerHTML = json_information.perfs.rapid.games
+
+    if(isProv(json_information.perfs.bullet))
+    {
+        bulletRating.style.color = "var(--ruby)"
+        bulletGames.style.color = "var(--ruby)"
+    }
+    else
+    {
+        bulletRating.style.color = "var(--pearl)"
+        bulletGames.style.color = "var(--pearl)"
+    }
+    if(isProv(json_information.perfs.blitz))
+    {
+        blitzRating.style.color = "var(--ruby)"
+        blitzGames.style.color = "var(--ruby)"
+    }
+    else
+    {
+        blitzRating.style.color = "var(--pearl)"
+        blitzGames.style.color = "var(--pearl)"
+    }
+    if(isProv(json_information.perfs.rapid))
+    {
+        rapidRating.style.color = "var(--ruby)"
+        rapidGames.style.color = "var(--ruby)"
+    }
+    else
+    {
+        rapidRating.style.color = "var(--pearl)"
+        rapidGames.style.color = "var(--pearl)"
+    }
 }

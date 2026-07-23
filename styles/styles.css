@@ -95,7 +95,6 @@ p {
 
 .information-group
 {
-  width: calc-size(fit-content, size + 100px);
   margin-inline: auto;
   display: flex;
   justify-content: center;
@@ -106,6 +105,7 @@ p {
 {
   width: 100%;
   margin-inline: 5px;
+  margin-bottom: 8px;
   padding: 10px;
   padding-inline: 30px;
   background-color: var(--garnet);
